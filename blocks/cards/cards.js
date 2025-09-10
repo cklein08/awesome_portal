@@ -5,14 +5,43 @@ export default function decorate(block) {
   const ul = document.createElement('ul');
   [...block.children].forEach((row) => {
     const li = document.createElement('li');
-    li.innerHTML = row.innerHTML;
+    while (row.firstElementChild) li.append(row.firstElementChild);
     [...li.children].forEach((div) => {
       if (div.children.length === 1 && div.querySelector('picture')) div.className = 'cards-card-image';
       else div.className = 'cards-card-body';
     });
+
+    // Check if card body contains a link and make whole card clickable
+    const cardBody = li.querySelector('.cards-card-body');
+    const link = cardBody?.querySelector('a');
+    if (link) {
+      // Store the original link's href and target
+      const { href } = link;
+      const { target } = link;
+
+      // Make the whole card clickable
+      li.style.cursor = 'pointer';
+      li.addEventListener('click', (e) => {
+        // Prevent default if clicking directly on the link
+        if (e.target.tagName === 'A') return;
+
+        // Navigate to the link
+        if (target === '_blank') {
+          window.open(href, '_blank');
+        } else {
+          window.location.href = href;
+        }
+      });
+
+      // Keep the original link styling but remove its default click behavior for card clicks
+      link.addEventListener('click', (e) => {
+        e.stopPropagation();
+      });
+    }
+
     ul.append(li);
   });
-  ul.querySelectorAll('img').forEach((img) => img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }])));
+  ul.querySelectorAll('picture > img').forEach((img) => img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }])));
   block.textContent = '';
   block.append(ul);
 }

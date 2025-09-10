@@ -1,57 +1,84 @@
 footer {
-  padding: 2rem;
-  background-color: var(--background-color-dark);
-  font-size: var(--body-font-size-s);
-  color: var(--text-color-light);
+  background-color: black;
+  color: #fff;
+  font-size: var(--body-font-size-xs);
+  width: 100%;
+  padding: 0;
+  margin: 0;
 }
 
-footer .footer {
+footer .footer > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   max-width: 1200px;
-  margin: auto;
+  margin: 0 auto;
+  padding: 20px 40px;
+  height: 60px;
 }
 
 footer .footer p {
   margin: 0;
-  padding-top: 10px;
 }
 
-footer .footer ul {
+/* Logo section - left side */
+footer .footer > div > div:first-child {
   display: flex;
+  align-items: center;
+}
+
+footer .footer > div > div:first-child img {
+  width: 128px;
+  height: auto;
+}
+
+/* Navigation links section - right side */
+footer .footer .default-content-wrapper ul {
+  display: flex;
+  align-items: center;
+  gap: 30px;
   list-style: none;
-  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+  flex-wrap: nowrap;
+}
+
+footer .footer .default-content-wrapper li {
+  margin: 0;
   padding: 0;
 }
 
-footer .footer ul > li {
-  font-family: tertiary-font, notosans-regular, sans-serif;
-  font-size: 26px;
-  line-height: 22px;
-  text-transform: capitalize;
-  font-stretch: extra-expanded;
-}
-
 footer .footer a {
-  color: var(--link-text-color);
+  color: #fff;
+  text-decoration: none;
+  font-family: "TCCC UnityText Regular", sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  transition: color 0.3s ease;
 }
 
-footer .footer ul > li > a {
-  display: block;
-    width: 215px;
-    height: 25px;
-    background: #FA6600;
-    padding: 10px;
-    text-align: center;
-    border-radius: 5px;
-    font-weight: bold;
-    line-height: 25px;
-    font-size: 21px;
+footer .footer a .icon {
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
 }
 
-footer .footer p::before {
-  content:"";
-  display:block;
-  width: 100%;
-  max-width:100%;
-  border-bottom: 0.3px solid #757575;
-  margin: 0 auto 20px;
+footer .footer a:hover {
+  opacity: 0.8;
+}
+
+@media (width < 768px) {
+  footer .footer > div {
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    height: auto;
+  }
+  
+  footer .footer .default-content-wrapper ul {
+    gap: 20px;
+    justify-content: center;
+  }
 }
