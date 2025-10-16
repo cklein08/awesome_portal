@@ -2,9 +2,9 @@
 
 A Cloudflare Worker that acts as outermost CDN for the KO Assets project with some additional features. It provides authentication, authorization, edge caching, and request routing to the various AEM backends (Helix/EDS, Dynamic Media OpenAPI and more).
 
-* Production Worker URL: https://koassets.adobeaem.workers.dev
-* Branch URLs: `https://{branch}-koassets.adobeaem.workers.dev`
-* [Worker in Cloudflare Dashboard](https://dash.cloudflare.com/852dfa4ae1b0d579df29be65b986c101/workers/services/view/koassets/production/metrics)
+* Production Worker URL: https://assetsDashboard.adobeaem.workers.dev
+* Branch URLs: `https://{branch}-assetsDashboard.adobeaem.workers.dev`
+* [Worker in Cloudflare Dashboard](https://dash.cloudflare.com/852dfa4ae1b0d579df29be65b986c101/workers/services/view/assetsDashboard/production/metrics)
 
 ## Setup
 
@@ -85,14 +85,14 @@ then make test requests to the worker.
 On each branch/PR push, the Github Actions CI will automatically deploy the worker under a preview URL for the `branch`:
 
 ```bash
-https://{branch}-koassets.adobeaem.workers.dev
+https://{branch}-assetsDashboard.adobeaem.workers.dev
 ```
 
-This will use the same branch for the Helix origin: `{branch}--koassets--aemsites.aem.live`
+This will use the same branch for the Helix origin: `{branch}--assetsDashboard--aemsites.aem.live`
 
 ### CI production
 
-On each `main` branch push, the Github ActionsCI will do the same as above and additionally deploy that same worker version to production at https://koassets.adobeaem.workers.dev.
+On each `main` branch push, the Github ActionsCI will do the same as above and additionally deploy that same worker version to production at https://assetsDashboard.adobeaem.workers.dev.
 
 
 ### Manual deploy
@@ -109,10 +109,10 @@ npm run deploy
 This will deploy the worker to the preview URL using the `user` id (git email address without the domain) and `branch` name:
 
 ```bash
-https://{user}-{branch}-koassets.adobeaem.workers.dev
+https://{user}-{branch}-assetsDashboard.adobeaem.workers.dev
 ```
 
-This will use the same `branch` for the Helix origin: `{branch}--koassets--aemsites.aem.live`
+This will use the same `branch` for the Helix origin: `{branch}--assetsDashboard--aemsites.aem.live`
 
 Options (use with `./deploy.sh`):
 

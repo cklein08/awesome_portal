@@ -18,10 +18,10 @@ import { cors } from './utils-itty';
 
 const { preflight, corsify } = cors({
   origin: [
-    'https://koassets.adobeaem.workers.dev',
+    'https://assetsDashboard.adobeaem.workers.dev',
     // development URLs
-    /https:\/\/.*-koassets\.adobeaem\.workers\.dev$/,
-    /https:\/\/.*-koassets--aemsites\.aem\.(live|page)$/,
+    /https:\/\/.*-assetsDashboard\.adobeaem\.workers\.dev$/,
+    /https:\/\/.*-assetsDashboard--aemsites\.aem\.(live|page)$/,
     /http:\/\/localhost:(3000|8787)/
   ],
   allowMethods: ['GET', 'POST'],

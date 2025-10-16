@@ -13,7 +13,7 @@ const HIERARCHY_PREFIX = 'TCCC.#hierarchy.lvl';
 // Local storage functions for saved searches
 const loadSavedSearches = (): SavedSearch[] => {
     try {
-        const saved = localStorage.getItem('koassets-saved-searches');
+        const saved = localStorage.getItem('assetsDashboard-saved-searches');
         return saved ? JSON.parse(saved) : [];
     } catch (error) {
         console.error('Error loading saved searches:', error);
@@ -23,7 +23,7 @@ const loadSavedSearches = (): SavedSearch[] => {
 
 const saveSavedSearches = (searches: SavedSearch[]): void => {
     try {
-        localStorage.setItem('koassets-saved-searches', JSON.stringify(searches));
+        localStorage.setItem('assetsDashboard-saved-searches', JSON.stringify(searches));
     } catch (error) {
         console.error('Error saving searches:', error);
     }

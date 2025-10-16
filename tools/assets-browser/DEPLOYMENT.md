@@ -18,7 +18,7 @@ This directory contains the built React application for static deployment (no se
 **Build command:**
 
 ```bash
-cd koassets-react && npm run build:template
+cd assetsDashboard-react && npm run build:template
 ```
 
 **Result:** Template in `index.html`:
@@ -53,13 +53,13 @@ sed -i "s/\${BUCKET}/$BUCKET/g" index.html
 **Zsh/Bash:**
 
 ```bash
-cd koassets-react && VITE_ADOBE_CLIENT_ID=your-client-id VITE_BUCKET=your-bucket-name npm run build:embed
+cd assetsDashboard-react && VITE_ADOBE_CLIENT_ID=your-client-id VITE_BUCKET=your-bucket-name npm run build:embed
 ```
 
 **PowerShell:**
 
 ```powershell
-cd koassets-react; $env:VITE_ADOBE_CLIENT_ID="your-client-id"; $env:VITE_BUCKET="your-bucket-name"; npm run build:embed
+cd assetsDashboard-react; $env:VITE_ADOBE_CLIENT_ID="your-client-id"; $env:VITE_BUCKET="your-bucket-name"; npm run build:embed
 ```
 
 **Result:** Config embedded in `index.html`:
@@ -79,7 +79,7 @@ cd koassets-react; $env:VITE_ADOBE_CLIENT_ID="your-client-id"; $env:VITE_BUCKET=
 
 ### Option 1: Server-Side Template (Best for Production)
 
-1. **Build locally**: `cd koassets-react && npm run build:template`
+1. **Build locally**: `cd assetsDashboard-react && npm run build:template`
 2. **Upload files**: Copy `tools/assets-browser/` to your server
 3. **Process template**: Server replaces `${ADOBE_CLIENT_ID}` and `${BUCKET}` with actual values
 4. **Test**: Verify the app loads and authenticates correctly

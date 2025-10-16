@@ -2,7 +2,7 @@
 
 # shellcheck disable=SC2164
 
-AEM_PAGES_URL=${AEM_PAGES_URL:-https://main--koassets--aemsites.aem.page}
+AEM_PAGES_URL=${AEM_PAGES_URL:-https://main--assetsDashboard--aemsites.aem.page}
 DM_ORIGIN=${DM_ORIGIN:-https://delivery-p64403-e544653.adobeaemcloud.com}
 
 # https://www.aem.live/developer/cli-reference#general-options
@@ -39,7 +39,7 @@ function run_aem() {
 }
 
 function run_react_build() {
-  cd koassets-react
+  cd assetsDashboard-react
   npx chokidar "**" -i "dist/**" -c "npm run build-local-dev"
 }
 
@@ -90,7 +90,7 @@ echo "               |       ${AEM_PAGES_URL}"
 echo "               |"
 echo "               | React build in /tools/assets-browser/index.(js|css)"
 echo "               ↓"
-echo    "${BG_BLUE}[vte]$NC  Vite auto-rebuild on file changes inside koassets-react/*"
+echo    "${BG_BLUE}[vte]$NC  Vite auto-rebuild on file changes inside assetsDashboard-react/*"
 echo
 echo "Running at http://localhost:8787"
 echo

@@ -136,7 +136,7 @@ src/
 
    ```bash
    git clone <repository-url>
-   cd koassets-react
+   cd assetsDashboard
    ```
 
 2. **Install dependencies**

@@ -5,14 +5,14 @@ Astra Pilot for an Assets Share Portal built on Helix & Content Hub (Dynamic Med
 ## Environments
 
 Main site (cloudflare worker):
-- Live: https://koassets.adobeaem.workers.dev
-- Branch: <https://{branch}-koassets.adobeaem.workers.dev>
+- Live: https://assetsDashboard.adobeaem.workers.dev
+- Branch: <https://{branch}-assetsDashboard.adobeaem.workers.dev>
   - Note: for this URL to work, branch names must be shorter than ~50 characters and only include lowercase letters, numbers, and dashes characters. Due to [cloudflare worker alias limitations](https://developers.cloudflare.com/workers/configuration/previews/#rules-and-limitations).
   - Note 2: for the IMS login to work, the branch name must be less than 20 chars and only contain letters and numbers (no dashes, no special chars).
 
 Helix origin:
-- Live: https://main--koassets--aemsites.aem.live
-- Preview: https://main--koassets--aemsites.aem.page
+- Live: https://main--assetsDashboard--aemsites.aem.live
+- Preview: https://main--assetsDashboard--aemsites.aem.page
 
 ## Project structure
 
@@ -20,7 +20,7 @@ This project is based on the [aem-boilerplate](https://github.com/adobe/aem-boil
 
 List of projects, each with their own `package.json`:
 - root - the AEM EDS main project
-- [koassets-react](koassets-react): React app/components
+- [assetsDashboard-react](assetsDashboard-react): React app/components
   - build goes to `tools/assets-browser/index.(js|css)`
 - [cloudflare](cloudflare): Cloudflare worker for the assets share portal
 
@@ -35,7 +35,7 @@ Before using the aem-boilerplate, we recommand you to go through the documentati
 
 ### KO-Asset Search React App
 
-Parts of the app are built in react. The sources are located in the [koassets-react](koassets-react) folder.
+Parts of the app are built in react. The sources are located in the [assetsDashboard-react](assetsDashboard-react) folder.
 
 A build step enforced in a github pre-commit hook builds the react app and copies the output to the `tools/assets-browser` folder.
 
@@ -81,7 +81,7 @@ Environment variables supported by `npm run dev`:
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `AEM_PAGES_URL` | EDS content URL | https://main--koassets--aemsites.aem.page |
+| `AEM_PAGES_URL` | EDS content URL | https://main--assetsDashboard--aemsites.aem.page |
 | `DM_ORIGIN` | Dynamic Media API URL | https://delivery-p64403-e544653.adobeaemcloud.com |
 | `DEV_BROWSER` | Browser to open. Mac OS only.<br><br>Options:<ul><li>`Google Chrome`</li><li>`Safari`</li><li>`Firefox`</li></ul> | - (system default) |
 | `CLOUDFLARE_REQUEST_LOGS` | Set to `1` to show request logs from cloudflare worker, which is the default behavior of `wrangler dev` but we turn it off to keep things readable.<br><br> Example request log:<br>`[wrangler:info] GET /path 200 OK (10ms)` | - (off) |

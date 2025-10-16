@@ -19,10 +19,10 @@
 
 # Configuration
 # Helix github
-REPO=koassets
+REPO=assetsDashboard
 ORG=aemsites
 # cloudflare worker
-WORKER=koassets
+WORKER=assetsDashboard
 WORKER_DOMAIN=adobeaem
 
 # Usage: upload_version <tag> <message>

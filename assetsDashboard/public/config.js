@@ -8,6 +8,6 @@ window.APP_CONFIG = {
 };
 
 // Default external parameters (empty for development)
-window.KOAssetsConfig = {
+window.assetsDashboardConfig = {
   externalParams: {}
 }; 

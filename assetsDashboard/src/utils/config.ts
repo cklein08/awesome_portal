@@ -17,7 +17,7 @@ declare global {
             TCCC_FADEL_CONNECTOR_VERSION?: string;
             TCCC_FADEL_DOMAIN_NAME?: string;
         };
-        KOAssetsConfig?: {
+        assetsDashboardConfig?: {
             externalParams?: ExternalParams;
         };
     }
@@ -65,10 +65,10 @@ export const getTcccFadelCustomerName = (): string => getConfig().TCCC_FADEL_CUS
 export const getTcccFadelConnectorVersion = (): string => getConfig().TCCC_FADEL_CONNECTOR_VERSION;
 export const getTcccFadelDomainName = (): string => getConfig().TCCC_FADEL_DOMAIN_NAME;
 
-// Utility to get external parameters from KOAssetsConfig
+// Utility to get external parameters from assetsDashboardConfig
 export const getExternalParams = (): ExternalParams => {
     try {
-        return window.KOAssetsConfig?.externalParams || {};
+        return window.assetsDashboardConfig?.externalParams || {};
     } catch {
         return {};
     }

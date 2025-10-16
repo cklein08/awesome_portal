@@ -1,18 +1,18 @@
 /* KO Assets Search Block Styles */
-.koassets-search {
+.assetsDashboard-search {
     width: 100%;
     position: relative;
     z-index: 0;
 }
 
-/* When popup modals are present, elevate the entire koassets-search container */
-.koassets-search:has(.cart-panel-overlay),
-.koassets-search:has(.asset-preview-modal),
-.koassets-search:has(.download-renditions-overlay) {
+/* When popup modals are present, elevate the entire assetsDashboard-search container */
+.assetsDashboard-search:has(.cart-panel-overlay),
+.assetsDashboard-search:has(.asset-preview-modal),
+.assetsDashboard-search:has(.download-renditions-overlay) {
     z-index: 10;
 }
 
-.koassets-search-container {
+.assetsDashboard-search-container {
     width: 100%;
 
     /* Remove height: 100vh constraint for natural page flow */
@@ -24,13 +24,13 @@
     box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
 }
 
-.koassets-search-container .koassets-search-wrapper {
+.assetsDashboard-search-container .assetsDashboard-search-wrapper {
     max-width: 100%;
     margin: 0 auto;
     padding: 0;
 }
 
-.koassets-search-container .koassets-search-wrapper .koassets-search-root {
+.assetsDashboard-search-container .assetsDashboard-search-wrapper .assetsDashboard-search-root {
     width: 100%;
 
     /* Remove height: 100% to allow natural content height */
@@ -38,7 +38,7 @@
 }
 
 /* Loading indicator styles */
-.koassets-search-container .koassets-search-wrapper .koassets-loading {
+.assetsDashboard-search-container .assetsDashboard-search-wrapper .assetsDashboard-loading {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -53,14 +53,14 @@
     z-index: 1000;
 }
 
-.koassets-search-container .koassets-search-wrapper .koassets-loading p {
+.assetsDashboard-search-container .assetsDashboard-search-wrapper .assetsDashboard-loading p {
     margin: 16px 0 0;
     font-size: 16px;
     color: #666;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.koassets-search-container .koassets-search-wrapper .loading-spinner {
+.assetsDashboard-search-container .assetsDashboard-search-wrapper .loading-spinner {
     width: 40px;
     height: 40px;
     border: 3px solid #f3f3f3;
@@ -80,7 +80,7 @@
 }
 
 /* Error message styles */
-.koassets-search-container .koassets-search-wrapper .error-message {
+.assetsDashboard-search-container .assetsDashboard-search-wrapper .error-message {
     padding: 24px;
     background: #fff5f5;
     border: 1px solid #fed7d7;
@@ -91,28 +91,28 @@
     margin: 0 auto;
 }
 
-.koassets-search-container .koassets-search-wrapper .error-message h3 {
+.assetsDashboard-search-container .assetsDashboard-search-wrapper .error-message h3 {
     margin: 0 0 12px;
     color: #c53030;
     font-size: 18px;
     font-weight: 600;
 }
 
-.koassets-search-container .koassets-search-wrapper .error-message p {
+.assetsDashboard-search-container .assetsDashboard-search-wrapper .error-message p {
     margin: 8px 0;
     line-height: 1.5;
 }
 
-.koassets-search-container .koassets-search-wrapper .error-message ol {
+.assetsDashboard-search-container .assetsDashboard-search-wrapper .error-message ol {
     margin: 12px 0;
     padding-left: 20px;
 }
 
-.koassets-search-container .koassets-search-wrapper .error-message li {
+.assetsDashboard-search-container .assetsDashboard-search-wrapper .error-message li {
     margin: 4px 0;
 }
 
-.koassets-search-container .koassets-search-wrapper .error-message code {
+.assetsDashboard-search-container .assetsDashboard-search-wrapper .error-message code {
     background: #edf2f7;
     padding: 2px 6px;
     border-radius: 3px;
@@ -123,36 +123,36 @@
 
 /* Responsive adjustments */
 @media (width <=768px) {
-    .koassets-search-container {
+    .assetsDashboard-search-container {
         /* Remove height: 100vh for natural scrolling */
         min-height: 500px;
         border-radius: 0;
         box-shadow: none;
     }
 
-    .koassets-search-container .koassets-search-wrapper .error-message {
+    .assetsDashboard-search-container .assetsDashboard-search-wrapper .error-message {
         margin: 16px;
         padding: 20px;
     }
 }
 
 @media (width <=480px) {
-    .koassets-search-container .koassets-search-wrapper .koassets-loading p {
+    .assetsDashboard-search-container .assetsDashboard-search-wrapper .assetsDashboard-loading p {
         font-size: 14px;
     }
 
-    .koassets-search-container .koassets-search-wrapper .loading-spinner {
+    .assetsDashboard-search-container .assetsDashboard-search-wrapper .loading-spinner {
         width: 32px;
         height: 32px;
         border-width: 2px;
     }
 
-    .koassets-search-container .koassets-search-wrapper .error-message {
+    .assetsDashboard-search-container .assetsDashboard-search-wrapper .error-message {
         margin: 8px;
         padding: 16px;
     }
 
-    .koassets-search-container .koassets-search-wrapper .error-message h3 {
+    .assetsDashboard-search-container .assetsDashboard-search-wrapper .error-message h3 {
         font-size: 16px;
     }
 }

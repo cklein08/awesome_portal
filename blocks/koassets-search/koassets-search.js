@@ -15,8 +15,8 @@ export default async function decorate(block) {
 
   // Create container div for the React app
   const reactContainer = document.createElement('div');
-  reactContainer.id = 'koassets-search-container';
-  reactContainer.className = 'koassets-search-container';
+  reactContainer.id = 'assetsDashboard-search-container';
+  reactContainer.className = 'assetsDashboard-search-container';
 
   // Set container styles for natural page integration
   reactContainer.style.width = '100%';
@@ -27,12 +27,12 @@ export default async function decorate(block) {
   // Create root div for React mounting (same ID as used in main.tsx)
   const reactRoot = document.createElement('div');
   reactRoot.id = 'root';
-  reactRoot.className = 'koassets-search-root';
+  reactRoot.className = 'assetsDashboard-search-root';
   reactContainer.appendChild(reactRoot);
 
   // Add loading indicator
   const loadingIndicator = document.createElement('div');
-  loadingIndicator.className = 'koassets-loading';
+  loadingIndicator.className = 'assetsDashboard-loading';
   loadingIndicator.innerHTML = `
     <div class="loading-spinner"></div>
     <p>Loading KO Assets...</p>
@@ -43,16 +43,16 @@ export default async function decorate(block) {
   block.append(reactContainer);
 
   // Configure external parameters for block integration
-  window.KOAssetsConfig = window.KOAssetsConfig || {};
-  /** @type {import('../../koassets-react/src/types/index.js').ExternalParams} */
-  window.KOAssetsConfig.externalParams = {
+  window.assetsDashboardConfig = window.assetsDashboardConfig || {};
+  /** @type {import('../../assetsDashboard-react/src/types/index.js').ExternalParams} */
+  window.assetsDashboardConfig.externalParams = {
     isBlockIntegration: true,
     accordionTitle: blockObj.accordionTitle,
     accordionContent: blockObj.accordionContent,
     excFacets: JSON.parse(stripHtmlAndNewlines(blockObj.excFacets)),
     restrictedBrands,
     presetFilters: convertHtmlListToArray(blockObj.presetFilters),
-    ...(window.KOAssetsConfig.externalParams || {}),
+    ...(window.assetsDashboardConfig.externalParams || {}),
   };
 
   // Load the built React app
@@ -114,8 +114,8 @@ function showError(element, title, message) {
       <p>${message}</p>
       <p><strong>To fix this:</strong></p>
       <ol>
-        <li>Navigate to the koassets-react directory</li>
-        <li>Run: <code>npm run build-and-copy:koassets-react</code></li>
+        <li>Navigate to the assetsDashboard-react directory</li>
+        <li>Run: <code>npm run build-and-copy:assetsDashboard-react</code></li>
         <li>Refresh this page</li>
       </ol>
     </div>

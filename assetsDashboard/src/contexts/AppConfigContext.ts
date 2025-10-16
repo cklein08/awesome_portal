@@ -11,6 +11,7 @@ export interface AppConfigContextType {
         items?: Rendition[];
         'repo:name'?: string;
     };
+    assetAemLocation?: string; // <-- Added property for Asset AEM location
     // Add more config parameters here as needed
     // otherConfig?: SomeType[];
 }
