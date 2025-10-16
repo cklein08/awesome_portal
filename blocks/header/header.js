@@ -1,4 +1,6 @@
-import { getMetadata, decorateIcons, loadBlocks } from '../../scripts/aem.js';
+import { getMetadata } from '../../scripts/aem.js';
+import { loadFragment } from '../fragment/fragment.js';
+import showProfileModal from './profile.js';
 
 // media query match that indicates mobile/tablet width
 const isDesktop = window.matchMedia('(min-width: 900px)');
@@ -16,6 +18,21 @@ function closeOnEscape(e) {
       // eslint-disable-next-line no-use-before-define
       toggleMenu(nav, navSections);
       nav.querySelector('button').focus();
+    }
+  }
+}
+
+function closeOnFocusLost(e) {
+  const nav = e.currentTarget;
+  if (!nav.contains(e.relatedTarget)) {
+    const navSections = nav.querySelector('.nav-sections');
+    const navSectionExpanded = navSections.querySelector('[aria-expanded="true"]');
+    if (navSectionExpanded && isDesktop.matches) {
+      // eslint-disable-next-line no-use-before-define
+      toggleAllNavSections(navSections, false);
+    } else if (!isDesktop.matches) {
+      // eslint-disable-next-line no-use-before-define
+      toggleMenu(nav, navSections, false);
     }
   }
 }
@@ -41,7 +58,7 @@ function focusNavSection() {
  * @param {Boolean} expanded Whether the element should be expanded or collapsed
  */
 function toggleAllNavSections(sections, expanded = false) {
-  sections.querySelectorAll('.nav-sections > ul > li').forEach((section) => {
+  sections.querySelectorAll('.nav-sections .default-content-wrapper > ul > li').forEach((section) => {
     section.setAttribute('aria-expanded', expanded);
   });
 }
@@ -64,94 +81,196 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
   if (isDesktop.matches) {
     navDrops.forEach((drop) => {
       if (!drop.hasAttribute('tabindex')) {
-        drop.setAttribute('role', 'button');
         drop.setAttribute('tabindex', 0);
         drop.addEventListener('focus', focusNavSection);
       }
     });
   } else {
     navDrops.forEach((drop) => {
-      drop.removeAttribute('role');
       drop.removeAttribute('tabindex');
       drop.removeEventListener('focus', focusNavSection);
     });
   }
+
   // enable menu collapse on escape keypress
   if (!expanded || isDesktop.matches) {
     // collapse menu on escape press
     window.addEventListener('keydown', closeOnEscape);
+    // collapse menu on focus lost
+    nav.addEventListener('focusout', closeOnFocusLost);
   } else {
     window.removeEventListener('keydown', closeOnEscape);
+    nav.removeEventListener('focusout', closeOnFocusLost);
   }
 }
 
+async function createNavBar() {
+  // load nav as fragment
+  const navMeta = getMetadata('nav');
+  const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
+  const fragment = await loadFragment(navPath);
+
+  // decorate nav DOM
+  const nav = document.createElement('nav');
+  nav.id = 'nav';
+  while (fragment.firstElementChild) nav.append(fragment.firstElementChild);
+
+  const classes = ['brand', 'sections', 'tools'];
+  classes.forEach((c, i) => {
+    const section = nav.children[i];
+    if (section) section.classList.add(`nav-${c}`);
+  });
+
+  const navBrand = nav.querySelector('.nav-brand');
+  const brandLink = navBrand.querySelector('.button');
+  if (brandLink) {
+    brandLink.className = '';
+    brandLink.closest('.button-container').className = '';
+  }
+
+  const navSections = nav.querySelector('.nav-sections');
+  if (navSections) {
+    navSections.querySelectorAll(':scope .default-content-wrapper > ul > li').forEach((navSection) => {
+      if (navSection.querySelector('ul')) navSection.classList.add('nav-drop');
+      navSection.addEventListener('click', () => {
+        if (isDesktop.matches) {
+          const expanded = navSection.getAttribute('aria-expanded') === 'true';
+          toggleAllNavSections(navSections);
+          navSection.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+        }
+      });
+    });
+  }
+
+  // hamburger for mobile
+  const hamburger = document.createElement('div');
+  hamburger.classList.add('nav-hamburger');
+  hamburger.innerHTML = `<button type="button" aria-controls="nav" aria-label="Open navigation">
+      <span class="nav-hamburger-icon"></span>
+    </button>`;
+  hamburger.addEventListener('click', () => toggleMenu(nav, navSections));
+  nav.prepend(hamburger);
+  nav.setAttribute('aria-expanded', 'false');
+  // prevent mobile nav behavior on window resize
+  toggleMenu(nav, navSections, isDesktop.matches);
+  isDesktop.addEventListener('change', () => toggleMenu(nav, navSections, isDesktop.matches));
+
+  const navWrapper = document.createElement('div');
+  navWrapper.className = 'nav-wrapper';
+  navWrapper.append(nav);
+  return navWrapper;
+}
+
+function getUserInitials() {
+  if (!window.user || !window.user.name) {
+    return '';
+  }
+  return window.user.name.split(' ').map((name) => name.charAt(0)).join('').toUpperCase();
+}
+
+function createHeaderBar() {
+  // Create TCCC primary header bar
+  const headerBar = document.createElement('div');
+  headerBar.className = 'header-bar';
+
+  // Create language section
+  const languageSection = document.createElement('div');
+  languageSection.className = 'language-selector';
+
+  const languageButton = document.createElement('div');
+  languageButton.className = 'language-selector-button';
+  languageButton.innerHTML = `
+    <span class="language-icon country-flag-usa"></span>
+    <span class="country-name">EN-US</span>
+    <span class="down-arrow-icon"></span>
+  `;
+  languageSection.appendChild(languageButton);
+
+  // Create upload button
+  const uploadButton = document.createElement('div');
+  uploadButton.className = 'header-upload-button';
+  uploadButton.innerHTML = `
+    <a class="upload-icon">Upload</a>
+  `;
+
+  // Create help section
+  const helpSection = document.createElement('div');
+  helpSection.className = 'help-section';
+
+  const helpButton = document.createElement('div');
+  helpButton.className = 'help-section-button';
+  helpButton.innerHTML = `
+    Help
+    <span class="down-arrow-icon"></span>
+  `;
+  helpSection.appendChild(helpButton);
+
+  headerBar.append(languageSection, uploadButton, helpSection);
+
+  // Create user button (user dropdown)
+  // Note: window.user not defined aka logged out should normally not happen
+  //       as the user agent should be redirected to the login page before
+  if (window.user) {
+    const myAccount = document.createElement('div');
+    myAccount.className = 'my-account';
+    const myAccountButton = document.createElement('div');
+    myAccountButton.className = 'my-account-button';
+    myAccountButton.innerHTML = `
+      <div class="avatar">${getUserInitials()}</div>
+      My Account
+      <span class="down-arrow-icon"></span>
+    `;
+
+    const myAccountMenu = document.createElement('div');
+    myAccountMenu.className = 'my-account-menu';
+    myAccountMenu.innerHTML = `
+      <ul>
+        <li><a href="#" id="my-profile-link">My Profile</a></li>
+        <li><a href="#">My Rights Requests</a></li>
+        <li><a href="#">My Saved Templates</a></li>
+        <li><a href="#">My Print Jobs</a></li>
+        <li><a href="#">My Collections</a></li>
+        <li><a href="#">My Saved Searches</a></li>
+        <li><a href="/auth/logout">Log Out</a></li>
+      </ul>
+    `;
+    myAccountButton.addEventListener('click', () => {
+      // toggle display
+      myAccountMenu.style.display = myAccountMenu.style.display === 'block' ? 'none' : 'block';
+      myAccountButton.classList.toggle('active');
+    });
+    myAccount.appendChild(myAccountButton);
+    myAccount.appendChild(myAccountMenu);
+
+    // Add event listener for My Profile link
+    const profileLink = myAccountMenu.querySelector('#my-profile-link');
+    profileLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      showProfileModal();
+      // Close the account menu
+      myAccountMenu.style.display = 'none';
+      myAccountButton.classList.remove('active');
+    });
+
+    headerBar.append(myAccount);
+  }
+
+  return headerBar;
+}
+
 /**
- * decorates the header, mainly the nav
+ * loads and decorates the header, mainly the nav
  * @param {Element} block The header block element
  */
 export default async function decorate(block) {
-  // fetch nav content
-  const navMeta = getMetadata('nav');
-  const navPath = navMeta ? new URL(navMeta).pathname : '/nav';
-  const resp = await fetch(`${navPath}.plain.html`);
+  block.textContent = '';
 
-  if (resp.ok) {
-    const html = await resp.text();
-
-    // decorate nav DOM
-    const nav = document.createElement('nav');
-    nav.id = 'nav';
-    nav.innerHTML = html;
-
-    const classes = ['brand', 'sections', 'tools'];
-    classes.forEach((c, i) => {
-      const section = nav.children[i];
-      if (section) section.classList.add(`nav-${c}`);
-    });
-
-    const navSections = nav.querySelector('.nav-sections');
-    if (navSections) {
-      navSections.querySelectorAll(':scope > ul > li').forEach((navSection) => {
-        if (navSection.querySelector('ul')) navSection.classList.add('nav-drop');
-        navSection.addEventListener('click', () => {
-          if (isDesktop.matches) {
-            const expanded = navSection.getAttribute('aria-expanded') === 'true';
-            toggleAllNavSections(navSections);
-            navSection.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-          }
-        });
-        if (navSection.querySelector('ul')) {
-          navSection.querySelectorAll('li').forEach((li) => {
-            const path = li.querySelector('a').getAttribute('href');
-            li.querySelector('a').setAttribute('href', `${path}`);
-          });
-        }
-      });
-    }
-
-    // hamburger for mobile
-    const hamburger = document.createElement('div');
-    hamburger.classList.add('nav-hamburger');
-    hamburger.innerHTML = `<button type="button" aria-controls="nav" aria-label="Open navigation">
-        <span class="nav-hamburger-icon"></span>
-      </button>`;
-    hamburger.addEventListener('click', () => toggleMenu(nav, navSections));
-    nav.prepend(hamburger);
-    nav.setAttribute('aria-expanded', 'false');
-    // prevent mobile nav behavior on window resize
-    toggleMenu(nav, navSections, isDesktop.matches);
-    isDesktop.addEventListener('change', () => toggleMenu(nav, navSections, isDesktop.matches));
-
-    decorateIcons(nav);
-    const navWrapper = document.createElement('div');
-    navWrapper.className = 'nav-wrapper';
-    navWrapper.append(nav);
-    const form = nav.querySelector('.form');
-    form.classList.add('block');
-    form.setAttribute('data-block-name', 'form');
-    loadBlocks(nav).then(() => {
-      form.style.setProperty('display', 'block');
-    });
-    block.append(navWrapper);
+  if (getMetadata('header') === 'no') {
+    // quick hack for welcome page
+    block.parentElement.style.height = '60px';
+    return;
   }
+
+  block.append(createHeaderBar());
+  block.append(await createNavBar());
 }
