@@ -12,9 +12,10 @@
 
 import { error, Router, withCookies } from 'itty-router';
 import { authRouter, withAuthentication } from './auth';
-import { originDynamicMedia } from './origin-dm';
-import { originHelix } from './origin-helix';
-import { cors } from './utils-itty';
+import { originDynamicMedia } from './origin/dm';
+import { originHelix } from './origin/helix';
+import { originFadel } from './origin/fadel';
+import { cors } from './util/itty';
 
 const { preflight, corsify } = cors({
   origin: [
@@ -61,7 +62,10 @@ router
   .all('*', withAuthentication)
 
   // dynamic media
-  .all('/api/assets/*', originDynamicMedia)
+  .all('/api/adobe/assets/*', originDynamicMedia)
+
+  // fadel
+  .all('/api/fadel/*', originFadel)
 
   // future API routes
   .all('/api/*', () => error(404))

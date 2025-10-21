@@ -1,5 +1,6 @@
 import { getMetadata } from '../../scripts/aem.js';
-import { loadFragment } from '../fragment/fragment.js';
+import { loadFragment } from '../../scripts/scripts.js';
+import decorateassetsDashboardSearch from '../assetsDashboard-search/assetsDashboard-search.js';
 import showProfileModal from './profile.js';
 
 // media query match that indicates mobile/tablet width
@@ -142,6 +143,53 @@ async function createNavBar() {
     });
   }
 
+  const tools = nav.querySelector('.nav-tools');
+
+  // add shopping cart icon to nav-tools
+  if (tools) {
+    const cartIcon = document.createElement('div');
+    cartIcon.classList.add('nav-cart-icon');
+    cartIcon.innerHTML = `
+      <button type="button" aria-label="Shopping Cart">
+        <img src="/icons/shopping-cart-icon.svg" alt="Shopping Cart" />
+        <span class="cart-badge" style="display: none;"></span>
+      </button>
+    `;
+
+    // Add click handler for cart icon
+    cartIcon.addEventListener('click', () => {
+      if (window.openCart && typeof window.openCart === 'function') {
+        window.openCart();
+      } else {
+        console.log('Cart panel functionality not available');
+      }
+    });
+
+    tools.appendChild(cartIcon);
+
+    // Expose function to update cart badge
+    window.updateCartBadge = function (numCartItems) {
+      const badge = cartIcon.querySelector('.cart-badge');
+      if (badge) {
+        if (numCartItems && numCartItems > 0) {
+          badge.textContent = numCartItems;
+          badge.style.display = 'block';
+        } else {
+          badge.style.display = 'none';
+        }
+      }
+    };
+
+    // Update cart badge from localStorage
+    try {
+      const cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
+      window.updateCartBadge(cartItems.length);
+    } catch (error) {
+      console.error('Error reading cart items from localStorage:', error);
+      window.updateCartBadge(0);
+    }
+  }
+
   // hamburger for mobile
   const hamburger = document.createElement('div');
   hamburger.classList.add('nav-hamburger');
@@ -229,8 +277,8 @@ function createHeaderBar() {
         <li><a href="#">My Rights Requests</a></li>
         <li><a href="#">My Saved Templates</a></li>
         <li><a href="#">My Print Jobs</a></li>
-        <li><a href="#">My Collections</a></li>
-        <li><a href="#">My Saved Searches</a></li>
+        <li><a href="/my-collections">My Collections</a></li>
+        <li><a href="/my-saved-search">My Saved Searches</a></li>
         <li><a href="/auth/logout">Log Out</a></li>
       </ul>
     `;
@@ -273,4 +321,21 @@ export default async function decorate(block) {
 
   block.append(createHeaderBar());
   block.append(await createNavBar());
+
+  // Create and render assetsDashboard-search block
+  const searchBlock = document.createElement('div');
+  searchBlock.className = 'assetsDashboard-search-hidden';
+
+  // Set empty HTML - assetsDashboard-search.js now handles optional configuration
+  searchBlock.innerHTML = '';
+
+  // Decorate the search block
+  try {
+    await decorateassetsDashboardSearch(searchBlock);
+  } catch (error) {
+    console.error('Error decorating searchBlock:', error);
+  }
+
+  // Append the search block to the header (always hidden)
+  block.append(searchBlock);
 }
