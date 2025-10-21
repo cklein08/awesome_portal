@@ -2,7 +2,7 @@
   "name": "assetsDashboard",
   "private": true,
   "version": "1.0.0",
-  "description": "KO Assets Portal",
+  "description": " Assets Dashboard in TEAM AWESOME Portal",
   "scripts": {
     "install-all": "npm install && cd assetsDashboard-react && npm install && cd ../cloudflare && npm install",
     "dev": "./local.sh",
@@ -15,8 +15,9 @@
   "devDependencies": {
     "@adobe/aem-cli": "16.10.46",
     "@babel/eslint-parser": "7.27.1",
+    "@types/jest": "^30.0.0",
     "@types/react": "^19.2.2",
-    "@types/react-dom": "^19.2.2",
+    "@types/react-chartjs-2": "^2.0.2",
     "eslint": "8.57.1",
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-plugin-import": "2.31.0",
@@ -25,7 +26,12 @@
     "stylelint-config-standard": "38.0.0"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/material": "^7.3.4",
+    "@types/react-router-dom": "^5.3.3",
     "chart.js": "^4.5.1",
-    "react-chartjs-2": "^5.3.0"
+    "react-chartjs-2": "^5.3.0",
+    "react-router-dom": "^7.9.4"
   }
 }

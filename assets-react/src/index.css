@@ -1,0 +1,16 @@
+body {
+  margin: 0;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+:root {
+  --primary-color: #ed0000;
+  --primary-color-hover: #d11700;
+  --primary-color-active: #bd1500;
+  --primary-color-disabled: #ff8c80;
+  --secondary-color: #1e1e1e;
+}

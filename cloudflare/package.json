@@ -7,8 +7,9 @@
   "type": "module",
   "scripts": {
     "test": "echo SKIPPED: No tests specified. For Cloudflare workers we might want to look into https://developers.cloudflare.com/workers/testing/",
-    "dev": "wrangler dev --env-file .env",
-    "deploy": "./deploy.sh",
+    "predev": "./scripts/local-secret-store.sh",
+    "dev": "wrangler dev",
+    "deploy": "./scripts/deploy.sh",
     "tail": "wrangler tail",
     "lint": "biome lint",
     "lint:fix": "biome lint --fix",
@@ -18,7 +19,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.2.0",
-    "wrangler": "^4.31.0"
+    "wrangler": "^4.38.0"
   },
   "dependencies": {
     "itty-router": "^5.0.22",

@@ -1,2 +1,4 @@
 mountpoints:
-  /: https://drive.google.com/drive/folders/116ZIAsli7xYZpM7_t900T1H4dnT4yV6o
+  /: 
+    url: https://docs.google.com/document/d/19WbJ7uWjA_8V48JePW0ZrbFT9WBylXeah-lhI-WXtJw/edit?usp=drive_link
+    type: markup
